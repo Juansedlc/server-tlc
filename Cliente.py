@@ -5,11 +5,13 @@ import re
 
 if __name__ == "__main__":
 
+    #variables de estado
     host = "Localhost"
     port = 4000
 
     response_received = threading.Event()
     
+    #función de esperas
     def receive_messages():
         while (True):
             try:
@@ -23,15 +25,13 @@ if __name__ == "__main__":
                 print(f'Error al recibir datos del servidor: {e}')
                 break
     try:
+
         socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket1.connect((host,port))
         print("Inicializando Cliente...")
-
-
         receive_thread = threading.Thread(target=receive_messages)
         receive_thread.daemon = True
         receive_thread.start()
-
         varBool = True
         while varBool:
             format=r'^<\[[0-9A-Fa-f]{4}[01D]]\>$'
